@@ -36,6 +36,10 @@ public class TCPClient {
 
       // Read and display the message from the server
       String inMsg = socketReader.readLine();
+      if(outMsg.equals("CLOSE")){
+    	  System.out.println("FUCK");
+    	  socket.close();
+      }
       System.out.println("Server: " + inMsg);
       System.out.println(); // Print a blank line
       System.out.print(promptMsg);
