@@ -26,7 +26,7 @@ public class TCPServer {
       System.out.println("Det er oppretta ei tilkopling med:  " + activeSocket);
       
       Runnable runnable = () -> run(activeSocket);
-      new Thread(runnable).start(); // startar ny tråd
+      new Thread(runnable).start(); // startar ny tråd.
     }
   }
   
