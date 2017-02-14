@@ -10,7 +10,7 @@ import java.net.Socket;
 
 public class TCPClient {
   public static void main(String[] args) throws Exception {
-    Socket socket = new Socket("localhost", 12900);
+    Socket socket = new Socket("10.96.174.2", 12900);
     System.out.println("Started client  socket at "
         + socket.getLocalSocketAddress());
     BufferedReader socketReader = new BufferedReader(new InputStreamReader(
@@ -41,7 +41,7 @@ public class TCPClient {
 	    	  socket.close();
 	    	  break;
 	      }
-	      System.out.println("Server: " + inMsg);
+	      System.out.println("Frå server: " + inMsg);
 	      System.out.println(); // Print a blank line
 	      System.out.print(promptMsg);
 	    }

@@ -14,8 +14,8 @@ import java.util.Date;
 
 public class TCPServer {
   public static void main(String[] args) throws Exception {
-    ServerSocket serverSocket = new ServerSocket(12900, 100,
-        InetAddress.getByName("localhost"));
+	  InetAddress addr = InetAddress.getByName("10.96.174.2");
+    ServerSocket serverSocket = new ServerSocket(12900, 100, addr);
     System.out.println("Server starta på socket:  " + serverSocket);
 
     while (true) {
@@ -26,7 +26,7 @@ public class TCPServer {
       System.out.println("Det er oppretta ei tilkopling med:  " + activeSocket);
       
       Runnable runnable = () -> run(activeSocket);
-      new Thread(runnable).start(); // startar ny tråd.
+      new Thread(runnable).start(); // startar ny tråd
     }
   }
   
@@ -54,19 +54,15 @@ public class TCPServer {
     	  if(inMsg.equals("TIME")){
     		  outMsg = (String) dato(inMsg);
             }
-      	  if(inMsg.equals("CLOSE")){
-      		outMsg = "Stenger tilkopling";
-      		socket.close();
+    	  if(inMsg.equals("CLOSE")){
+      		outMsg = "Stenger tilkopling"; //Kjem aldri inni her uansett
       	  }
       	  
-        System.out.println("Received from  client: " + inMsg);
+        System.out.println("Mottatt frå klient med IP: " + socket.getInetAddress() +" og port: " + socket.getPort() + ": " + inMsg);
         
         socketWriter.write(outMsg);
         socketWriter.write("\n");
-        socketWriter.flush();
-        
-       
-        
+        socketWriter.flush(); 
       }
       socket.close();
     }catch(Exception e){
@@ -79,12 +75,12 @@ public class TCPServer {
 	  Date date = new Date();
 	  
 	  if(dat.equals("FULL")){
-		  DateFormat dateFormat = new SimpleDateFormat("MMMM yyyy HH:mm:ss");
+		  DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
 		  return dateFormat.format(date);
 	  }
 	  
 	  if(dat.equals("DATE")){
-		  DateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
+		  DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
 		  return dateFormat.format(date);
 	  }
 	  
