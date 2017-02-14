@@ -25,6 +25,9 @@ public class TCPClient {
 
     System.out.print(promptMsg);
     while ((outMsg = consoleReader.readLine()) != null) {
+    	if(!(outMsg.equals("FULL") || outMsg.equals("DATE") || outMsg.equals("TIME") || outMsg.equals("CLOSE") )){
+    		System.out.println("Kommando ikkje gjenkjend, prøv igjen ");
+    	} else{
       if (outMsg.equalsIgnoreCase("bye")) {
         break;
       }
@@ -37,12 +40,14 @@ public class TCPClient {
       // Read and display the message from the server
       String inMsg = socketReader.readLine();
       if(outMsg.equals("CLOSE")){
-    	  System.out.println("FUCK");
+    	  System.out.println("Du er no kopla frå serveren");
     	  socket.close();
+    	  break;
       }
       System.out.println("Server: " + inMsg);
       System.out.println(); // Print a blank line
       System.out.print(promptMsg);
+    }
     }
     socket.close();
   }
