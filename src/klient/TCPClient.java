@@ -10,7 +10,7 @@ import java.net.Socket;
 
 public class TCPClient {
   public static void main(String[] args) throws Exception {
-    Socket socket = new Socket("10.96.174.2", 12900);
+    Socket socket = new Socket("localhost", 12900);
     System.out.println("Started client  socket at "
         + socket.getLocalSocketAddress());
     BufferedReader socketReader = new BufferedReader(new InputStreamReader(
@@ -28,13 +28,13 @@ public class TCPClient {
     	if(!(outMsg.equals("FULL") || outMsg.equals("DATE") || outMsg.equals("TIME") || outMsg.equals("CLOSE") )){
     		System.out.println("Kommando ikkje gjenkjend, prøv igjen ");
     	} else{
-      // Add a new line to the message to the server,
-      // because the server reads one line at a time.
+
+
 	      socketWriter.write(outMsg);
 	      socketWriter.write("\n");
 	      socketWriter.flush();
 	
-	      // Read and display the message from the server
+	      //Leser inn det som kjem frå serveren
 	      String inMsg = socketReader.readLine();
 	      if(outMsg.equals("CLOSE")){
 	    	  System.out.println("Du er no kopla frå serveren");
@@ -42,7 +42,7 @@ public class TCPClient {
 	    	  break;
 	      }
 	      System.out.println("Frå server: " + inMsg);
-	      System.out.println(); // Print a blank line
+	      System.out.println();
 	      System.out.print(promptMsg);
 	    }
     }
