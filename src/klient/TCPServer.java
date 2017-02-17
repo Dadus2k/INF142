@@ -2,11 +2,13 @@ package klient;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,8 +16,8 @@ import java.util.Date;
 
 public class TCPServer {
   public static void main(String[] args) throws Exception {
-	  InetAddress addr = InetAddress.getByName("10.96.174.2");
-    ServerSocket serverSocket = new ServerSocket(12900, 100, addr);
+	  //InetAddress addr = InetAddress.getByName("10.96.174.2");
+    ServerSocket serverSocket = new ServerSocket(12900, 100,  InetAddress.getByName("localhost"));
     System.out.println("Server starta på socket:  " + serverSocket);
 
     while (true) {
@@ -26,7 +28,7 @@ public class TCPServer {
       System.out.println("Det er oppretta ei tilkopling med:  " + activeSocket);
       
       Runnable runnable = () -> run(activeSocket);
-      new Thread(runnable).start(); // startar ny tråd
+      new Thread(runnable).start(); //Startar ny tråd for aktiv socket
     }
   }
   
@@ -41,37 +43,46 @@ public class TCPServer {
 
       String inMsg = null;
       String outMsg = null;
+    
+      
       while ((inMsg = socketReader.readLine()) != null) {    	  
     	 
     	  if(inMsg.equals("FULL")){
     		  outMsg = (String) dato(inMsg);
           }
-    	  
     	  if(inMsg.equals("DATE")){
     		  outMsg = (String) dato(inMsg);
             }
-    	  
     	  if(inMsg.equals("TIME")){
     		  outMsg = (String) dato(inMsg);
             }
-    	  if(inMsg.equals("CLOSE")){
-      		outMsg = "Stenger tilkopling"; //Kjem aldri inni her uansett
-      	  }
-      	  
+
         System.out.println("Mottatt frå klient med IP: " + socket.getInetAddress() +" og port: " + socket.getPort() + ": " + inMsg);
+        
+        if(inMsg.equals("CLOSE")){
+  		  System.out.println("Klient med IP: " + socket.getInetAddress() +" og port: " + socket.getPort() + ": " + inMsg +  " Har stengt tilkoplinga");
+    	  } 
         
         socketWriter.write(outMsg);
         socketWriter.write("\n");
         socketWriter.flush(); 
       }
       socket.close();
+    }catch(SocketException f){
+    	System.out.println("SocketException. Klienten er blitt kopla frå");
+        //f.printStackTrace();
+    	try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }catch(Exception e){
       e.printStackTrace();
     }
 
   }
   public static Object dato(String dat){
-	  String feil = "Noko gjekk til helvete";
+	  String feil = "Feil kommando"; //Bør aldri skje
 	  Date date = new Date();
 	  
 	  if(dat.equals("FULL")){
