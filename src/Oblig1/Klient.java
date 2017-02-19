@@ -9,11 +9,14 @@ import java.net.Socket;
 import java.net.SocketException;
 
 /**
- * @author dma004 & mme115
+ * @author dma004 & mme015
  */
 
-public class TCPClient {
+public class Klient {
   public static void main(String[] args) throws Exception {
+	  
+	Thread.currentThread().sleep(1000);
+	
     Socket socket = new Socket("localhost", 12900);
     System.out.println("Started client  socket at "
         + socket.getLocalSocketAddress());
@@ -55,7 +58,7 @@ public class TCPClient {
     	socket.close();
     	break;
     	//e.printStackTrace();
-    }
+    } Thread.currentThread().sleep(1000);
     }
     socket.close();
   }

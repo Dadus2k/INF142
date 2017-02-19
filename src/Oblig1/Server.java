@@ -14,10 +14,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @author dma004 & mme115
+ * @author dma004 & mme015
  */
 
-public class TCPServer {
+public class Server {
   public static void main(String[] args) throws Exception {
 
     ServerSocket serverSocket = new ServerSocket(12900, 100,  InetAddress.getByName("localhost"));
@@ -64,7 +64,7 @@ public class TCPServer {
         System.out.println("Mottatt frå klient med IP: " + socket.getInetAddress() +" og port: " + socket.getPort() + ": " + inMsg);
         
         if(inMsg.equals("CLOSE")){
-  		  System.out.println("Klient med IP: " + socket.getInetAddress() +" og port: " + socket.getPort() + ": " + inMsg +  " Har stengt tilkoplinga");
+  		  System.out.println("Klient med IP: " + socket.getInetAddress() +" og port: " + socket.getPort() + ": " +  " Har stengt tilkoplinga");
     	  } 
         
         //Skriver til klient
