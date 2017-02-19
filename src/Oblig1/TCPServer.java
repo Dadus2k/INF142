@@ -1,4 +1,4 @@
-package klient;
+package Oblig1;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,10 +13,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author dma004 & mme115
+ */
 
 public class TCPServer {
   public static void main(String[] args) throws Exception {
-	  //InetAddress addr = InetAddress.getByName("10.96.174.2");
+
     ServerSocket serverSocket = new ServerSocket(12900, 100,  InetAddress.getByName("localhost"));
     System.out.println("Server starta på socket:  " + serverSocket);
 
@@ -32,6 +35,7 @@ public class TCPServer {
     }
   }
   
+  //Handterer klientar
   public static void run(Socket socket) {
     try{
       BufferedReader socketReader = null;
@@ -43,8 +47,7 @@ public class TCPServer {
 
       String inMsg = null;
       String outMsg = null;
-    
-      
+     
       while ((inMsg = socketReader.readLine()) != null) {    	  
     	 
     	  if(inMsg.equals("FULL")){
@@ -57,20 +60,24 @@ public class TCPServer {
     		  outMsg = (String) dato(inMsg);
             }
 
+    	//Skriver ut hos server kva som kom frå klient  
         System.out.println("Mottatt frå klient med IP: " + socket.getInetAddress() +" og port: " + socket.getPort() + ": " + inMsg);
         
         if(inMsg.equals("CLOSE")){
   		  System.out.println("Klient med IP: " + socket.getInetAddress() +" og port: " + socket.getPort() + ": " + inMsg +  " Har stengt tilkoplinga");
     	  } 
         
+        //Skriver til klient
         socketWriter.write(outMsg);
         socketWriter.write("\n");
         socketWriter.flush(); 
       }
       socket.close();
     }catch(SocketException f){
-    	System.out.println("SocketException. Klienten er blitt kopla frå");
-        //f.printStackTrace();
+    	System.out.println("SocketException. Klienten blir kopla frå");
+    	
+    	//Uncomment for å sjå full feilkode
+    	//f.printStackTrace();
     	try {
 			socket.close();
 		} catch (IOException e) {

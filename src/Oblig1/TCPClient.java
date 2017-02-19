@@ -1,4 +1,4 @@
-package klient;
+package Oblig1;
 
 
 import java.io.BufferedReader;
@@ -6,7 +6,11 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.net.SocketException;
 
+/**
+ * @author dma004 & mme115
+ */
 
 public class TCPClient {
   public static void main(String[] args) throws Exception {
@@ -25,6 +29,7 @@ public class TCPClient {
 
     System.out.print(promptMsg);
     while ((outMsg = consoleReader.readLine()) != null) {
+    	try{
     	if(!(outMsg.equals("FULL") || outMsg.equals("DATE") || outMsg.equals("TIME") || outMsg.equals("CLOSE") )){
     		System.out.println("Kommando ikkje gjenkjend, prøv igjen ");
     	} else{
@@ -45,6 +50,12 @@ public class TCPClient {
 	      System.out.println();
 	      System.out.print(promptMsg);
 	    }
+    }catch(SocketException e){
+    	System.out.println("SocketException. Tilkopling blir stoppa");
+    	socket.close();
+    	break;
+    	//e.printStackTrace();
+    }
     }
     socket.close();
   }
