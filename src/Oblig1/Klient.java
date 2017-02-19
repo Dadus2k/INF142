@@ -7,18 +7,22 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.rmi.ConnectException;
 
 /**
  * @author dma004 & mme015
  */
 
 public class Klient {
-  public static void main(String[] args) throws Exception {
-	  
-	Thread.currentThread().sleep(1000);
 	
-    Socket socket = new Socket("localhost", 12900);
-    System.out.println("Started client  socket at "
+	static Socket socket = null;
+
+  public static void main(String[] args) throws Exception {
+	Thread.currentThread().sleep(1000);
+	try{ 
+		socket = new Socket("localhost", 12900);
+	    
+    System.out.println("Starta klient-socket: "
         + socket.getLocalSocketAddress());
     BufferedReader socketReader = new BufferedReader(new InputStreamReader(
         socket.getInputStream()));
@@ -37,7 +41,6 @@ public class Klient {
     		System.out.println("Kommando ikkje gjenkjend, prøv igjen ");
     	} else{
 
-
 	      socketWriter.write(outMsg);
 	      socketWriter.write("\n");
 	      socketWriter.flush();
@@ -53,7 +56,8 @@ public class Klient {
 	      System.out.println();
 	      System.out.print(promptMsg);
 	    }
-    }catch(SocketException e){
+    }  	
+    	catch(SocketException e){
     	System.out.println("SocketException. Tilkopling blir stoppa");
     	socket.close();
     	break;
@@ -61,5 +65,9 @@ public class Klient {
     } Thread.currentThread().sleep(1000);
     }
     socket.close();
+	}catch(SocketException f){
+		System.out.println("SocketException. Fekk ikkje kopla seg på server");
+    	//f.printStackTrace();
+    }
   }
 }

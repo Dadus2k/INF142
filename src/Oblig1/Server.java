@@ -75,7 +75,6 @@ public class Server {
       socket.close();
     }catch(SocketException f){
     	System.out.println("SocketException. Klienten blir kopla frå");
-    	
     	//Uncomment for å sjå full feilkode
     	//f.printStackTrace();
     	try {
